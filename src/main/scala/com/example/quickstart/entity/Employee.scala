@@ -9,9 +9,11 @@ import org.http4s.{EntityDecoder, EntityEncoder}
 final case class Employee(id: Long, name: String)
 
 object Employee {
-	implicit val employeeDecoder: Decoder[Employee] = deriveDecoder[Employee]
-	implicit val employeeEntityDecoder: EntityDecoder[IO, Employee] = jsonOf
+	implicit val decoder: Decoder[Employee] = deriveDecoder[Employee]
+	implicit val entityDecoder: EntityDecoder[IO, Employee] = jsonOf
+	implicit val listEntityDecoder: EntityDecoder[IO, List[Employee]] = jsonOf
 	
-	implicit val employeeEncoder: Encoder[Employee] = deriveEncoder[Employee]
-	implicit val employeeEntityEncoder: EntityEncoder[IO, Employee] = jsonEncoderOf
+	implicit val encoder: Encoder[Employee] = deriveEncoder[Employee]
+	implicit val entityEncoder: EntityEncoder[IO, Employee] = jsonEncoderOf
+	implicit val listEntityEncoder: EntityEncoder[IO, List[Employee]] = jsonEncoderOf
 }

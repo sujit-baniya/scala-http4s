@@ -1,5 +1,4 @@
 lazy val root = (project in file("."))
-	.enablePlugins(LiveReloadPlugin)
 	.settings(
 		organization := "com.example",
 		name := "quickstart",

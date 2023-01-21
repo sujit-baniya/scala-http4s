@@ -8,7 +8,7 @@ import org.http4s.dsl.io._
 object Routes {
 	def testRoutes(): HttpRoutes[IO] = {
 		HttpRoutes.of[IO] {
-			case GET -> Root / "text" => Ok(Dao.readAllWorklistF())
+			case GET -> Root / "text" => Ok(Dao.readAllWorklist())
 			case GET -> Root => Ok(Dao.readAllWorklist())
 			case GET -> Root / "employee" => Ok(Dao.readAllEmployee())
 			case GET -> Root / "company" => Ok(Dao.readAllCompany())

@@ -7,9 +7,7 @@ import com.example.quickstart.model.SlickTables
 import com.example.quickstart.entity.{Company, Employee, Worklist}
 
 import java.util.concurrent.Executors
-import scala.collection.Seq
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext
 
 
 
@@ -20,93 +18,61 @@ object PrivateExecutionContext {
 
 
 object Dao {
-	
 	import PrivateExecutionContext._
 	import slick.jdbc.MySQLProfile.api._
 	
-	private def insertWorklist(worklist: Worklist): Unit = {
-		
-		val queryDescription = SlickTables.worklistTable += worklist
-		
-		val futureId: Future[Int] = DBConnect.execOnClearDB(queryDescription)
-		futureId.onComplete {
-			case Success(newWorklistId) => println(s"Add $newWorklistId")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	private def insertWorklist(worklist: Worklist): IO[Int] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.worklistTable += worklist)
+		))
 	}
 	
-	def readAllWorklist(): Unit = {
-		val resFuture: Future[Seq[Worklist]] = DBConnect.execOnClearDB(SlickTables.worklistTable.result)
-		resFuture.onComplete {
-			case Success(worklist) => println(s"Fetched ${worklist.mkString(",")}")
-			case Failure(exception) => println(s"Err: $exception")
-		}
-	}
-	
-	def readAllWorklistF(): IO[List[Worklist]] =
+	def readAllWorklist(): IO[List[Worklist]] =
 		IO.fromFuture(IO(
 			DBConnect.execOnClearDB(SlickTables.worklistTable.result).map(_.toList)
 		))
 	
-	def insertCompany(company: Company): Unit = {
-		
-		val queryDescription = SlickTables.companyTable += company
-		
-		val futureId: Future[Int] = DBConnect.execOnClearDB(queryDescription)
-		futureId.onComplete {
-			case Success(newCompanyId) => println(s"Add $newCompanyId")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def insertCompany(company: Company): IO[Int] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.companyTable += company)
+		))
 	}
 	
-	def readAllCompany(): Unit = {
-		val resFuture: Future[Seq[Company]] = DBConnect.execOnClearDB(SlickTables.companyTable.result)
-		resFuture.onComplete {
-			case Success(company) => println(s"Fetched ${company.mkString(",")}")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def readAllCompany(): IO[List[Company]] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.companyTable.result).map(_.toList)
+		))
 	}
 	
-	def readOnceCompany(id: Long): Unit = {
-		val resFuture: Future[Seq[Company]] = DBConnect.execOnClearDB(SlickTables.companyTable.filter(_.id === id).result)
-		resFuture.onComplete {
-			case Success(id) => println(s"Fetched ${id.mkString(",")}")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def readOnceCompany(id: Long): IO[List[Company]] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.companyTable.filter(_.id === id).result).map(_.toList)
+		))
 	}
 	
 	
 	//EMPLOYEE:
 	
-	def insertEmployee(employee: Employee): Unit = {
-		
-		val queryDescription = SlickTables.employeeTable += employee
-		
-		val futureId: Future[Int] = DBConnect.execOnClearDB(queryDescription)
-		futureId.onComplete {
-			case Success(newEmployeeId) => println(s"Add $newEmployeeId")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def insertEmployee(employee: Employee): IO[Int] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.employeeTable += employee)
+		))
 	}
 	
-	def readAllEmployee(): Unit = {
-		val ressFuture: Future[Seq[Employee]] = DBConnect.execOnClearDB(SlickTables.employeeTable.result)
-		ressFuture.onComplete {
-			case Success(employee) => println(s"Fetched ${employee.mkString(",")}")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def readAllEmployee(): IO[List[Employee]] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.employeeTable.result).map(_.toList)
+		))
 	}
 	
-	def readOnceEmployee(name: String): Unit = {
-		val resFuture: Future[Seq[Employee]] = DBConnect.execOnClearDB(SlickTables.employeeTable.filter(_.name === name).result)
-		resFuture.onComplete {
-			case Success(name) => println(s"Fetched ${name.mkString(",")}")
-			case Failure(exception) => println(s"Err: $exception")
-		}
+	def readOnceEmployee(name: String): IO[List[Employee]] = {
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.employeeTable.filter(_.name === name).result).map(_.toList)
+		))
 	}
 	
 	
-	def insertData(): Unit = {
+	def insertData(): IO[Int] = {
 		insertEmployee(Employee(1L, "Stas Stasovich"))
 		insertEmployee(Employee(2L, "Ivan Ivanov"))
 		insertEmployee(Employee(3L, "Petr Petrov"))

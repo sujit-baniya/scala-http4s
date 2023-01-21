@@ -10,11 +10,11 @@ import org.http4s.{EntityDecoder, EntityEncoder}
 final case class Worklist(id: Long, worklistId: Long, nameId: Long)
 
 object Worklist {
-	implicit val worklistDecoder: Decoder[Worklist] = deriveDecoder[Worklist]
-	implicit val worklistEntityDecoder: EntityDecoder[IO, Worklist] = jsonOf
-	implicit val worklistListEntityDecoder: EntityDecoder[IO, List[Worklist]] = jsonOf
+	implicit val decoder: Decoder[Worklist] = deriveDecoder[Worklist]
+	implicit val entityDecoder: EntityDecoder[IO, Worklist] = jsonOf
+	implicit val listEntityDecoder: EntityDecoder[IO, List[Worklist]] = jsonOf
 	
-	implicit val worklistEncoder: Encoder[Worklist] = deriveEncoder[Worklist]
-	implicit val worklistEntityEncoder: EntityEncoder[IO, Worklist] = jsonEncoderOf
-	implicit val worklistListEntityEncoder: EntityEncoder[IO, List[Worklist]] = jsonEncoderOf
+	implicit val encoder: Encoder[Worklist] = deriveEncoder[Worklist]
+	implicit val entityEncoder: EntityEncoder[IO, Worklist] = jsonEncoderOf
+	implicit val listEntityEncoder: EntityEncoder[IO, List[Worklist]] = jsonEncoderOf
 }
