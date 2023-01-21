@@ -8,17 +8,17 @@ import org.http4s.implicits._
 import org.http4s.server.middleware.Logger
 
 object QuickstartServer {
-
-  def run[F[_]: Async]: F[Nothing] = {
-    val httpApp = (
-      new Service[F]().routes
-      ).orNotFound
-
-    val finalHttpApp = Logger.httpApp(logHeaders = false, logBody = false)(httpApp)
-    EmberServerBuilder.default[F]
-      .withHost(ipv4"0.0.0.0")
-      .withPort(port"8080")
-      .withHttpApp(finalHttpApp)
-      .build
-  }.useForever
+	
+	def run[F[_] : Async]: F[Nothing] = {
+		val httpApp = (
+			new Service[F]().routes
+          ).orNotFound
+		
+		val finalHttpApp = Logger.httpApp(logHeaders = false, logBody = false)(httpApp)
+		EmberServerBuilder.default[F]
+			.withHost(ipv4"0.0.0.0")
+			.withPort(port"8080")
+			.withHttpApp(finalHttpApp)
+			.build
+	}.useForever
 }
