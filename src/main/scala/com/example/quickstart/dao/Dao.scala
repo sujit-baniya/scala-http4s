@@ -1,6 +1,7 @@
 package com.example.quickstart.dao
 
 
+import cats.effect.IO
 import com.example.quickstart.db.DBConnect
 import com.example.quickstart.model.SlickTables
 import com.example.quickstart.entity.{Company, Employee, Worklist}
@@ -9,6 +10,7 @@ import java.util.concurrent.Executors
 import scala.collection.Seq
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
+
 
 
 object PrivateExecutionContext {
@@ -40,6 +42,11 @@ object Dao {
 			case Failure(exception) => println(s"Err: $exception")
 		}
 	}
+	
+	def readAllWorklistF(): IO[List[Worklist]] =
+		IO.fromFuture(IO(
+			DBConnect.execOnClearDB(SlickTables.worklistTable.result).map(_.toList)
+		))
 	
 	def insertCompany(company: Company): Unit = {
 		

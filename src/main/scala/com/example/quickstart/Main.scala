@@ -1,7 +1,7 @@
 package com.example.quickstart
 
-import cats.effect.{IO, IOApp}
+import cats.effect.IOApp
 
 object Main extends IOApp.Simple {
-	val run = QuickstartServer.run[IO]
+	val run = QuickstartServer.run
 }
