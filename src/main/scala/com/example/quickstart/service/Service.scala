@@ -3,12 +3,12 @@ package com.example.quickstart.service
 import com.example.quickstart.dao.Dao
 import org.http4s.HttpRoutes
 import cats.effect.IO
-import com.example.quickstart.db.DBConnect
+import com.example.quickstart.db.DB
 import org.http4s.dsl.io._
 
 object Routes {
 	def testRoutes(): HttpRoutes[IO] = {
-		val db = new Dao(DBConnect.cleardb)
+		val db = new Dao(DB.cleardb)
 		HttpRoutes.of[IO] {
 			case GET -> Root / "text" => Ok(db.readAllWorklist())
 			case GET -> Root => Ok(db.readAllWorklist())
