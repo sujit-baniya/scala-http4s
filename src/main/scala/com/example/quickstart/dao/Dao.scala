@@ -82,7 +82,13 @@ object Dao {
     }
   }
 
-  def readAllEmployee(): Future[scala.Seq[Employee]] = DBConnect.execOnClearDB(SlickTables.employeeTable.result)
+  def readAllEmployee(): Unit = {
+    val ressFuture: Future[Seq[Employee]] = DBConnect.execOnClearDB(SlickTables.employeeTable.result)
+    ressFuture.onComplete {
+      case Success(employee) => println(s"Fetched ${employee.mkString(",")}")
+      case Failure(exception) => println(s"Err: $exception")
+    }
+  }
 
   def readOnceEmployee(name: String): Unit = {
     val resFuture: Future[Seq[Employee]] = DBConnect.execOnClearDB(SlickTables.employeeTable.filter(_.name === name).result)
