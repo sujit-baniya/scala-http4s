@@ -2,9 +2,9 @@ package com.example.quickstart.dao
 
 
 import cats.effect.IO
-import com.example.quickstart.db.DBConnect
 import com.example.quickstart.model.SlickTables
 import com.example.quickstart.entity.{Company, Employee, Worklist}
+import slick.jdbc.MySQLProfile
 
 import java.util.concurrent.Executors
 import scala.concurrent.ExecutionContext
@@ -17,36 +17,36 @@ object PrivateExecutionContext {
 }
 
 
-object Dao {
+class Dao(db: MySQLProfile.backend.Database) {
 	import PrivateExecutionContext._
 	import slick.jdbc.MySQLProfile.api._
 	
 	private def insertWorklist(worklist: Worklist): IO[Int] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.worklistTable += worklist)
+			db.run(SlickTables.worklistTable += worklist)
 		))
 	}
 	
 	def readAllWorklist(): IO[List[Worklist]] =
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.worklistTable.result).map(_.toList)
+			db.run(SlickTables.worklistTable.result).map(_.toList)
 		))
 	
 	def insertCompany(company: Company): IO[Int] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.companyTable += company)
+			db.run(SlickTables.companyTable += company)
 		))
 	}
 	
 	def readAllCompany(): IO[List[Company]] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.companyTable.result).map(_.toList)
+			db.run(SlickTables.companyTable.result).map(_.toList)
 		))
 	}
 	
 	def readOnceCompany(id: Long): IO[List[Company]] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.companyTable.filter(_.id === id).result).map(_.toList)
+			db.run(SlickTables.companyTable.filter(_.id === id).result).map(_.toList)
 		))
 	}
 	
@@ -55,19 +55,19 @@ object Dao {
 	
 	def insertEmployee(employee: Employee): IO[Int] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.employeeTable += employee)
+			db.run(SlickTables.employeeTable += employee)
 		))
 	}
 	
 	def readAllEmployee(): IO[List[Employee]] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.employeeTable.result).map(_.toList)
+			db.run(SlickTables.employeeTable.result).map(_.toList)
 		))
 	}
 	
 	def readOnceEmployee(name: String): IO[List[Employee]] = {
 		IO.fromFuture(IO(
-			DBConnect.execOnClearDB(SlickTables.employeeTable.filter(_.name === name).result).map(_.toList)
+			db.run(SlickTables.employeeTable.filter(_.name === name).result).map(_.toList)
 		))
 	}
 	
