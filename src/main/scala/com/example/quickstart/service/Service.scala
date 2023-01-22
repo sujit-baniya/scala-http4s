@@ -16,7 +16,7 @@ object Routes {
 			case req@POST -> Root / "employee" =>
 				for {
 					employee <- req.as[Employee]
-					resp <-  Ok(db.insertEmployee(employee).map(_.toString))
+					resp <-  Ok(db.insertEmployee(employee))
 				} yield resp
 			case GET -> Root / "company" => Ok(db.readAllCompany())
 			case GET -> Root / "hello" / name => Ok("Hello " + name)
