@@ -24,7 +24,7 @@ class Dao(db: MySQLProfile.backend.Database) {
 	
 	def insertEmployee(employee: Employee): IO[Employee] = DB.run(db, {
 		def returnObj = (EmployeeTable.instance returning EmployeeTable.instance.map(_.id)).into((obj, id) => obj.copy(id = id))
-		returnObj  += employee
+		returnObj += employee
 	})
 	
 	def readAllEmployee(): IO[List[Employee]] = DB.run(db, EmployeeTable.instance.result).map(_.toList)
@@ -33,15 +33,15 @@ class Dao(db: MySQLProfile.backend.Database) {
 	
 	
 	def insertData(): IO[Int] = {
-		insertEmployee(Employee(Some(1L), "Stas Stasovich"))
-		insertEmployee(Employee(Some(2L), "Ivan Ivanov"))
-		insertEmployee(Employee(Some(3L), "Petr Petrov"))
+		insertEmployee(Employee(1L, "Stas Stasovich"))
+		insertEmployee(Employee(2L, "Ivan Ivanov"))
+		insertEmployee(Employee(3L, "Petr Petrov"))
 		
 		insertCompany(Company(1L, "STASCOMP"))
 		insertCompany(Company(2L, "AnotherComp"))
 		
-		insertWorklist(Worklist(1L, 1L, Some(1L)))
-		insertWorklist(Worklist(2L, 1L, Some(2L)))
-		insertWorklist(Worklist(3L, 2L, Some(3L)))
+		insertWorklist(Worklist(1L, 1L, 1L))
+		insertWorklist(Worklist(2L, 1L, 2L))
+		insertWorklist(Worklist(3L, 2L, 3L))
 	}
 }

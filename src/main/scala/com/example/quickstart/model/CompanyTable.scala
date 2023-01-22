@@ -6,8 +6,8 @@ object CompanyTable {
 	
 	import slick.jdbc.MySQLProfile.api._
 	
-	class CompanyTable(tag: Tag) extends Table[Company](tag, None, "Company") {
-		def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+	class CompanyTable(tag: Tag) extends BaseTable[Company](tag, None, "Company") {
+		override def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 		
 		def company = column[String]("company")
 		

@@ -6,7 +6,7 @@ import io.circe.{Decoder, Encoder}
 import org.http4s.circe.{jsonEncoderOf, jsonOf}
 import org.http4s.{EntityDecoder, EntityEncoder}
 
-final case class Employee(id: Option[Long], name: String)
+final case class Employee(id: Long, name: String)
 
 object Employee {
 	implicit val decoder: Decoder[Employee] = deriveDecoder[Employee]

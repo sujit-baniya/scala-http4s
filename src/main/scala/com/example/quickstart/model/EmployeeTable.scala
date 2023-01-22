@@ -6,8 +6,8 @@ object EmployeeTable {
 	
 	import slick.jdbc.MySQLProfile.api._
 	
-	class EmployeeTable(tag: Tag) extends Table[Employee](tag, None, "Employee") {
-		def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
+	class EmployeeTable(tag: Tag) extends BaseTable[Employee](tag, None, "Employee") {
+		override def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 		
 		def name = column[String]("name")
 		

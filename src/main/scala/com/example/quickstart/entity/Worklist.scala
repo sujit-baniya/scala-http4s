@@ -7,7 +7,7 @@ import org.http4s.circe.{jsonEncoderOf, jsonOf}
 import org.http4s.{EntityDecoder, EntityEncoder}
 
 
-final case class Worklist(id: Long, worklistId: Long, nameId: Option[Long])
+final case class Worklist(id: Long, worklistId: Long, nameId: Long)
 
 object Worklist {
 	implicit val decoder: Decoder[Worklist] = deriveDecoder[Worklist]
