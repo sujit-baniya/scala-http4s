@@ -7,7 +7,7 @@ import org.http4s.circe.{jsonEncoderOf, jsonOf}
 import org.http4s.{EntityDecoder, EntityEncoder}
 
 
-final case class Company(id: Long, company: String)
+final case class Company(id: Long, company: String) extends BaseEntity
 
 object Company {
 	implicit val decoder: Decoder[Company] = deriveDecoder[Company]

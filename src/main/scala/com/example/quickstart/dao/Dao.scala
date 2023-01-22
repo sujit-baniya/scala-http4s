@@ -30,18 +30,4 @@ class Dao(db: MySQLProfile.backend.Database) {
 	def readAllEmployee(): IO[List[Employee]] = DB.run(db, EmployeeTable.instance.result).map(_.toList)
 	
 	def readOnceEmployee(name: String): IO[List[Employee]] = DB.run(db, EmployeeTable.instance.filter(_.name === name).result).map(_.toList)
-	
-	
-	def insertData(): IO[Int] = {
-		insertEmployee(Employee(1L, "Stas Stasovich"))
-		insertEmployee(Employee(2L, "Ivan Ivanov"))
-		insertEmployee(Employee(3L, "Petr Petrov"))
-		
-		insertCompany(Company(1L, "STASCOMP"))
-		insertCompany(Company(2L, "AnotherComp"))
-		
-		insertWorklist(Worklist(1L, 1L, 1L))
-		insertWorklist(Worklist(2L, 1L, 2L))
-		insertWorklist(Worklist(3L, 2L, 3L))
-	}
 }

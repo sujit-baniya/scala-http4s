@@ -7,8 +7,6 @@ object WorklistTable {
 	import slick.jdbc.MySQLProfile.api._
 	
 	class WorklistTable(tag: Tag) extends BaseTable[Worklist](tag, None, "Worklist") {
-		override def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-		
 		def nameId = column[Long]("name")
 		
 		
