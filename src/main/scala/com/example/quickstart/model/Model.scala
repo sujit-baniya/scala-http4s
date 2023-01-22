@@ -16,7 +16,7 @@ object SlickTables {
 	
 	
 	class EmployeeTable(tag: Tag) extends Table[Employee](tag, None, "Employee") {
-		def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+		def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
 		
 		def name = column[String]("name")
 		
@@ -29,7 +29,7 @@ object SlickTables {
 	class WorklistTable(tag: Tag) extends Table[Worklist](tag, None, "Worklist") {
 		def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 		
-		def nameId = column[Long]("name")
+		def nameId = column[Option[Long]]("name")
 		
 		
 		def companyId = column[Long]("company")

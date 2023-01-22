@@ -22,7 +22,7 @@ class Dao(db: MySQLProfile.backend.Database) {
 	
 	def readOnceCompany(id: Long): IO[List[Company]] = DB.run(db, companyTable.filter(_.id === id).result).map(_.toList)
 	
-	def insertEmployee(employee: Employee): IO[Int] = DB.run(db, employeeTable += employee)
+	def insertEmployee(employee: Employee): IO[Option[Long]] = DB.run(db, employeeTable returning employeeTable.map(_.id) += employee)
 	
 	def readAllEmployee(): IO[List[Employee]] = DB.run(db, employeeTable.result).map(_.toList)
 	
@@ -30,15 +30,15 @@ class Dao(db: MySQLProfile.backend.Database) {
 	
 	
 	def insertData(): IO[Int] = {
-		insertEmployee(Employee(1L, "Stas Stasovich"))
-		insertEmployee(Employee(2L, "Ivan Ivanov"))
-		insertEmployee(Employee(3L, "Petr Petrov"))
+		insertEmployee(Employee(Some(1L), "Stas Stasovich"))
+		insertEmployee(Employee(Some(2L), "Ivan Ivanov"))
+		insertEmployee(Employee(Some(3L), "Petr Petrov"))
 		
 		insertCompany(Company(1L, "STASCOMP"))
 		insertCompany(Company(2L, "AnotherComp"))
 		
-		insertWorklist(Worklist(1L, 1L, 1L))
-		insertWorklist(Worklist(2L, 1L, 2L))
-		insertWorklist(Worklist(3L, 2L, 3L)) //I know that the fst argument auto incrementing (P.S. Its just for me)
+		insertWorklist(Worklist(1L, 1L, Some(1L)))
+		insertWorklist(Worklist(2L, 1L, Some(2L)))
+		insertWorklist(Worklist(3L, 2L, Some(3L)))
 	}
 }
